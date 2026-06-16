@@ -1,5 +1,7 @@
 # Exam Marks & WhatsApp Notification System
 
+**🚀 [Live Demo](https://exam-management.pages.dev/)**
+
 A comprehensive school management platform designed to streamline academic operations, automate student performance tracking, and facilitate seamless parent communication via the WhatsApp Cloud API.
 
 ---
