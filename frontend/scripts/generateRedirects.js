@@ -15,7 +15,8 @@ if (!backendUrl) {
 // Remove trailing slash if present
 const normalizedUrl = backendUrl.replace(/\/$/, '');
 
-const content = `/api/*  ${normalizedUrl}/api/:splat  200
+// Use a 200 rewrite to the same path for /api to ensure it skips the SPA rule and hits the Function
+const content = `/api/*  /api/*  200
 /*      /index.html  200
 `;
 
