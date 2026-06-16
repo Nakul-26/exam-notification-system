@@ -316,9 +316,10 @@ function AuditLogsPage({ authToken }: AuditLogsPageProps) {
       </section>
 
       <section className="panel">
-        <h2>Audit Entries</h2>
-        {loading ? <p>Loading...</p> : null}
+        <h2>System Audit Logs</h2>
+        {loading ? <div className="spinner"></div> : null}
         <div className="table-wrap">
+
           <table>
             <thead>
               <tr>

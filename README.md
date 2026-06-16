@@ -1,152 +1,118 @@
-# Exam Marks Notification
+# Exam Marks & WhatsApp Notification System
 
-Full-stack school management app for handling classes, students, teachers, exams, marks, and parent WhatsApp notifications.
+A comprehensive school management platform designed to streamline academic operations, automate student performance tracking, and facilitate seamless parent communication via the WhatsApp Cloud API.
 
-## Project Structure
+---
 
-- `backend/` - Express + MongoDB API
-- `frontend/` - React + Vite web app
+## 📸 System Overview
 
-## Website Features
+### Secure Authentication & Access
+![Login Page](./docs/images/image.png)
+*Modern, secure login interface supporting Role-Based Access Control (RBAC) for Admins and Teachers.*
 
-### Admin Features
+### Student & Class Management
+![Student Management](./docs/images/image-1.png)
+*Manage student profiles, including bulk Excel imports and advanced search filters.*
 
-- Authentication
-  - Admin login/logout
-  - Session restore on refresh
-- Student management
-  - Add, edit, delete, and search students
-  - Store roll number, student phone, father name, and father phone
-  - Bulk student import through Excel upload
-  - Empty Excel template download for student uploads
-- Class management
-  - Add, edit, delete, and search classes
-  - Bulk class import through Excel upload
-  - Empty Excel template download for class uploads
-- Subject management
-  - Add, edit, delete, and search subjects
-- Teacher management
-  - Add, edit, delete, and search teachers
-  - Set password during teacher creation
-  - Reset/update teacher password from the admin UI
-  - Bulk teacher import through Excel upload
-  - Empty Excel template download for teacher uploads
-- Class-subject mapping
-  - Map subjects to a class and section
-  - Edit and delete mappings
-- Class-student mapping
-  - Map students to a class and section
-  - Edit and delete mappings
-- Teacher-subject mapping
-  - Assign a teacher to a class-section-subject combination
-  - Edit and delete mappings
-- Exam management
-  - Create, edit, delete, and search exams
-  - Assign an exam to one or more class-sections
-  - Filter exams by class-section, academic year, and status
-  - Save exams as `draft`, `published`, or `completed`
-  - Publish draft exams from the UI
-- Exam subject management
-  - Add, edit, and delete subjects inside a selected exam
-  - Define exam date, maximum marks, passing marks, and instructions
-  - Restrict exam subjects to subjects mapped to the selected class-sections
-- Marks management
-  - Add, edit, and delete marks entries
-  - Filter marks by subject
-  - Search marks by student, roll number, or subject
-  - Subject-wise bulk marks entry table
-  - Download Excel template for marks entry
-  - Upload marks from Excel
-  - Validate marks against the subject maximum
-- WhatsApp marks notifications
-  - Select an exam and optional subject
-  - Search and select recipients
-  - Send marks to parents on WhatsApp
-  - Add an optional custom note to the message
-  - View per-recipient send results
-- Audit logs
-  - View audit entries for major modules
-  - Filter by actor role, status, action, path, and date range
-  - Pagination
-  - CSV export
+![Class Management](./docs/images/image-2.png)
+*Organize school structure by defining classes and sections with ease.*
 
-### Teacher Features
+### Academic Configuration
+![Subject Management](./docs/images/image-4.png)
+*Define core curriculum and subject lists.*
 
-- Authentication
-  - Teacher login/logout
-  - Session restore on refresh
-- Restricted marks access
-  - Teachers can only manage marks for their assigned class-section-subject mappings
-- Restricted notification access
-  - Teachers can only send marks notifications for students they are allowed to access
-- Teacher UI modules
-  - `Marks`
-  - `Notifications`
+![Assignment Page](./docs/images/image-3.png)
+*Map students and subjects to specific class-sections to create a structured academic environment.*
 
-## Platform Capabilities
+### Faculty Management
+![Teacher Management](./docs/images/image-5.png)
+*Manage teacher profiles and assign them to specific class-subject combinations.*
 
-- Role-based access control for `admin` and `teacher`
-- Multi-tenant style data scoping by `collegeId`
-- JWT access token flow with refresh token rotation
-- CSRF protection for refresh/logout actions
-- Account lock after repeated failed login attempts
-- API rate limiting
-- Secure HTTP headers with Helmet
-- MongoDB query sanitization
-- Audit logging for write operations and login events
-- WhatsApp safeguards
-  - Maximum recipients per request
-  - Monthly sending cap
-  - Invalid phone handling
-  - Per-recipient success/failure reporting
+### Exam & Marks Operations
+![Exam Management](./docs/images/image-6.png)
+*Configure examinations, set schedules, and manage performance data with automated validation.*
 
-## Prerequisites
+---
 
-- Node.js 18+
-- npm
-- MongoDB connection string
-- Meta WhatsApp Cloud API credentials
+## 🚀 Key Features
 
-## Setup
+### 🛡️ Secure & Scalable Architecture
+- **Multi-Tenant Design:** Data is logically scoped by `collegeId`, ensuring privacy and scalability for multiple institutions.
+- **Robust Security:** Implements JWT with **Refresh Token rotation**, CSRF protection, and account lockout mechanisms.
+- **API Hardening:** Protected by **Helmet**, Express Rate Limiter, and MongoDB query sanitization.
 
-1. Install dependencies.
+### 📱 WhatsApp Integration (Meta Cloud API)
+- **Automated Results:** Send exam marks directly to parents' WhatsApp numbers.
+- **Smart Safeguards:** Includes monthly sending caps, per-recipient delivery reporting, and phone number normalization.
+- **Custom Notifications:** Add personalized notes to automated result messages.
 
-```bash
-cd backend
-npm install
+### 📊 Data & Audit Management
+- **Bulk Operations:** Seamlessly import/export Students, Teachers, and Marks using **Excel (XLSX)** templates.
+- **Comprehensive Auditing:** Tracks all administrative actions and security events with CSV export for compliance.
+- **Teacher Portal:** A restricted view for faculty to manage marks and notifications for their assigned classes only.
 
-cd ../frontend
-npm install
-```
+---
 
-2. Create the backend environment file.
+## 🛠️ Technical Stack
 
-```bash
-cd backend
-copy .env.example .env
-```
+- **Frontend:** React 19, TypeScript, Vite, Vanilla CSS.
+- **Backend:** Node.js, Express, MongoDB (Mongoose).
+- **Communication:** Meta WhatsApp Cloud API.
+- **Security:** JWT, CSRF, Helmet, Rate Limiting.
 
-3. Start the backend server.
+---
 
-```bash
-cd backend
-npm run dev
-```
+## ⚙️ Setup & Installation
 
-4. Start the frontend app.
+### Prerequisites
+- Node.js 18+ & npm
+- MongoDB Atlas account
+- Meta Developer account (for WhatsApp API)
 
-```bash
-cd frontend
-npm run dev
-```
+### Installation
+1. **Clone the repository**
+2. **Install Dependencies**
+   ```bash
+   # Install Backend dependencies
+   cd backend && npm install
+   
+   # Install Frontend dependencies
+   cd ../frontend && npm install
+   ```
+3. **Configuration**
+   - Copy `backend/.env.example` to `backend/.env` and fill in your MongoDB URI and WhatsApp API credentials.
+   - *Note: Ensure your MongoDB Password is URL-encoded if it contains special characters.*
 
-## Environment Variables
+4. **Seed Demo Data** (Optional)
+   ```bash
+   cd backend
+   node src/scripts/seedDemoUsers.js
+   ```
 
-See `backend/.env.example` and `frontend/.env.example`.
+5. **Start Development Servers**
+   ```bash
+   # Start Backend (Port 5000)
+   cd backend && npm run dev
+   
+   # Start Frontend (Port 5173)
+   cd frontend && npm run dev
+   ```
 
-- Backend MongoDB settings now use `MONGO_URI` plus `MONGO_DB_NAME` separately.
+---
 
-## Notes
+## 📝 Demo Credentials
+*Available after running the seed script:*
 
-- In Meta test mode, only approved recipient numbers can receive WhatsApp messages.
-- WhatsApp recipient numbers are normalized to digits-only E.164 format before sending.
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin@school.com` | `Admin@123` |
+| **Teacher** | `teacher@school.com` | `Teacher@123` |
+
+---
+
+## 💡 Notes
+- **WhatsApp Test Mode:** In development, messages only go to numbers verified in your Meta App Dashboard.
+- **Data Scoping:** All data is associated with a `collegeId` (defaults to 'default').
+
+---
+*Developed with focus on efficiency, security, and user experience.*

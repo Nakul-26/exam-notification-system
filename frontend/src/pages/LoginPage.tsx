@@ -79,16 +79,29 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
   }
 
   return (
-    <main className="page">
-      <section className="panel" style={{ maxWidth: 520, margin: '4rem auto 0' }}>
-        <h2>Login</h2>
-        {error ? <p className="error">{error}</p> : null}
+    <div className="login-container">
+      <div className="login-card">
+        <header className="login-header">
+          <p className="eyebrow" style={{ color: '#2563eb', marginBottom: '0.5rem' }}>School Management</p>
+          <h2>Welcome Back</h2>
+          <p>Sign in to your account to continue</p>
+        </header>
+
+        {error ? (
+          <div className="error" style={{ marginBottom: '1.5rem' }}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            {error}
+          </div>
+        ) : null}
+
         <form className="student-form" onSubmit={handleSubmit}>
           <label className="field field-full">
-            <span>Email</span>
+            <span>Email Address</span>
             <input
               type="email"
-              placeholder="Enter email"
+              placeholder="e.g. admin@school.com"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required
@@ -96,33 +109,39 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
           </label>
           <label className="field field-full">
             <span>Password</span>
-            <div className="password-field">
+            <div className="password-wrap">
               <input
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Enter password"
+                placeholder="••••••••"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
               />
               <button
                 type="button"
-                className="password-toggle"
+                className="password-toggle-btn"
                 onClick={() => setShowPassword((value) => !value)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
           </label>
-          <div className="actions">
-            <button type="submit" className="primary" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
+
+          <div className="actions" style={{ marginTop: '1rem' }}>
+            <button type="submit" className="primary" disabled={loading} style={{ width: '100%', height: '48px', fontSize: '1rem' }}>
+              {loading ? (
+                <>
+                  <div className="spinner" style={{ width: '18px', height: '18px', borderTopColor: '#fff', marginRight: '0.75rem' }}></div>
+                  Signing In...
+                </>
+              ) : (
+                'Sign In'
+              )}
             </button>
           </div>
         </form>
-      </section>
-    </main>
+      </div>
+    </div>
   )
-} 
-
+  }
 export default LoginPage

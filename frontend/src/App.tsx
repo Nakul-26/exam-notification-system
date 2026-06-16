@@ -2757,7 +2757,7 @@ function App() {
   }
 
   return (
-    <main className="page">
+    <main className="page page-transition">
       <header className="topbar">
         <div>
           <p className="eyebrow">Exam Marks Module</p>
@@ -2792,17 +2792,17 @@ function App() {
                 ? 'Send WhatsApp notifications only for your assigned students.'
                 : 'Manage marks for your assigned class-subject mappings.'
               : activePage === 'students'
-              ? 'Add, update, remove, and view student records only.'
+              ? 'Add, update, remove, and view student records.'
               : activePage === 'exams'
                 ? 'Add, edit, delete, and view all exams.'
                 : activePage === 'subjects'
-                  ? 'Create and manage subjects only.'
+                  ? 'Create and manage subjects.'
                   : activePage === 'teachers'
-                    ? 'Create and manage teacher records only.'
+                    ? 'Create and manage teacher records.'
                     : activePage === 'teacherSubjects'
                       ? 'Assign teachers to class and subject combinations.'
               : activePage === 'marks'
-                    ? 'Manage student marks for existing exams and subjects.'
+                    ? 'Manage student marks for exams and subjects.'
                   : activePage === 'classSubjects'
                     ? 'Connect subjects to class-section combinations.'
                     : activePage === 'classStudents'
@@ -2814,118 +2814,118 @@ function App() {
                   : 'Create and manage class-section combinations.'}
           </p>
         </div>
-        <div className="tab-actions">
-          {isTeacherUser ? (
-            <>
-              <button
-                type="button"
-                className={activePage === 'marks' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('marks')}
-              >
-                Marks
-              </button>
-              <button
-                type="button"
-                className={activePage === 'notifications' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('notifications')}
-              >
-                Notifications
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                type="button"
-                className={activePage === 'students' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('students')}
-              >
-                Students
-              </button>
-              <button
-                type="button"
-                className={activePage === 'exams' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('exams')}
-              >
-                Exams
-              </button>
-              <button
-                type="button"
-                className={activePage === 'subjects' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('subjects')}
-              >
-                Subjects
-              </button>
-              <button
-                type="button"
-                className={activePage === 'teachers' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('teachers')}
-              >
-                Teachers
-              </button>
-              <button
-                type="button"
-                className={
-                  activePage === 'teacherSubjects' ? 'tab-button active' : 'tab-button'
-                }
-                onClick={() => setActivePage('teacherSubjects')}
-              >
-                Teacher Subjects
-              </button>
-              <button
-                type="button"
-                className={activePage === 'marks' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('marks')}
-              >
-                Marks
-              </button>
-              <button
-                type="button"
-                className={
-                  activePage === 'classSubjects' ? 'tab-button active' : 'tab-button'
-                }
-                onClick={() => setActivePage('classSubjects')}
-              >
-                Class Subjects
-              </button>
-              <button
-                type="button"
-                className={
-                  activePage === 'classStudents' ? 'tab-button active' : 'tab-button'
-                }
-                onClick={() => setActivePage('classStudents')}
-              >
-                Class Students
-              </button>
-              <button
-                type="button"
-                className={activePage === 'classes' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('classes')}
-              >
-                Classes
-              </button>
-              <button
-                type="button"
-                className={activePage === 'notifications' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('notifications')}
-              >
-                Notifications
-              </button>
-              <button
-                type="button"
-                className={activePage === 'auditLogs' ? 'tab-button active' : 'tab-button'}
-                onClick={() => setActivePage('auditLogs')}
-              >
-                Audit Logs
-              </button>
-            </>
-          )}
-          <button type="button" className="tab-button logout-button" onClick={() => void handleLogout()}>
-            Logout
-          </button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-end' }}>
+          <div className="tab-actions">
+            {isTeacherUser ? (
+              <>
+                <button
+                  type="button"
+                  className={activePage === 'marks' ? 'tab-button active' : 'tab-button'}
+                  onClick={() => setActivePage('marks')}
+                >
+                  Marks
+                </button>
+                <button
+                  type="button"
+                  className={activePage === 'notifications' ? 'tab-button active' : 'tab-button'}
+                  onClick={() => setActivePage('notifications')}
+                >
+                  Notifications
+                </button>
+              </>
+            ) : (
+              <>
+                <div style={{ display: 'flex', gap: '0.4rem', borderRight: '1px solid #e2e8f0', paddingRight: '0.4rem' }}>
+                  <button
+                    type="button"
+                    className={activePage === 'students' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('students')}
+                  >
+                    Students
+                  </button>
+                  <button
+                    type="button"
+                    className={activePage === 'classes' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('classes')}
+                  >
+                    Classes
+                  </button>
+                  <button
+                    type="button"
+                    className={activePage === 'classStudents' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('classStudents')}
+                  >
+                    Assignments
+                  </button>
+                </div>
+                <div style={{ display: 'flex', gap: '0.4rem', borderRight: '1px solid #e2e8f0', paddingRight: '0.4rem', paddingLeft: '0.4rem' }}>
+                  <button
+                    type="button"
+                    className={activePage === 'subjects' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('subjects')}
+                  >
+                    Subjects
+                  </button>
+                  <button
+                    type="button"
+                    className={activePage === 'teachers' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('teachers')}
+                  >
+                    Teachers
+                  </button>
+                </div>
+                <div style={{ display: 'flex', gap: '0.4rem', paddingLeft: '0.4rem' }}>
+                  <button
+                    type="button"
+                    className={activePage === 'exams' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('exams')}
+                  >
+                    Exams
+                  </button>
+                  <button
+                    type="button"
+                    className={activePage === 'marks' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('marks')}
+                  >
+                    Marks
+                  </button>
+                  <button
+                    type="button"
+                    className={activePage === 'notifications' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('notifications')}
+                  >
+                    WhatsApp
+                  </button>
+                  <button
+                    type="button"
+                    className={activePage === 'auditLogs' ? 'tab-button active' : 'tab-button'}
+                    onClick={() => setActivePage('auditLogs')}
+                  >
+                    Logs
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+             <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#64748b' }}>
+               {authUser.name} ({authUser.role})
+             </span>
+             <button type="button" className="tab-button logout-button" onClick={() => void handleLogout()}>
+               Logout
+             </button>
+          </div>
         </div>
       </header>
 
-      {error ? <p className="error">{error}</p> : null}
+      {error ? (
+        <div className="error">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+          </svg>
+          {error}
+        </div>
+      ) : null}
 
       {activePage === 'students' ? (
         <>
@@ -2949,7 +2949,14 @@ function App() {
                   onClick={() => studentUploadInputRef.current?.click()}
                   disabled={studentBulkSubmitting}
                 >
-                  {studentBulkSubmitting ? 'Uploading...' : 'Upload Filled Excel'}
+                  {studentBulkSubmitting ? (
+                    <>
+                      <div className="spinner" style={{ width: '14px', height: '14px', borderTopColor: '#3b82f6', marginRight: '0.5rem' }}></div>
+                      Uploading...
+                    </>
+                  ) : (
+                    'Upload Filled Excel'
+                  )}
                 </button>
                 <button
                   type="button"
@@ -3050,11 +3057,16 @@ function App() {
 
               <div className="actions">
                 <button type="submit" className="primary" disabled={studentSubmitting}>
-                  {studentSubmitting
-                    ? 'Saving...'
-                    : isEditingStudent
-                      ? 'Update'
-                      : 'Add'}
+                  {studentSubmitting ? (
+                    <>
+                      <div className="spinner" style={{ width: '14px', height: '14px', borderTopColor: '#fff', marginRight: '0.5rem' }}></div>
+                      Saving...
+                    </>
+                  ) : isEditingStudent ? (
+                    'Update'
+                  ) : (
+                    'Add'
+                  )}
                 </button>
                 {isEditingStudent ? (
                   <button type="button" onClick={resetStudentForm} className="secondary">
@@ -3067,7 +3079,12 @@ function App() {
 
           <section className="panel">
             <h2>All Students</h2>
-            {studentLoading ? <p>Loading...</p> : null}
+            {studentLoading ? (
+              <div style={{ textAlign: 'center', padding: '2rem' }}>
+                <div className="spinner"></div>
+                <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#64748b' }}>Loading students...</p>
+              </div>
+            ) : null}
             <div className="table-wrap">
               <table>
                 <thead>

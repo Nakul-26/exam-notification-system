@@ -71,7 +71,14 @@ function SubjectManagementPage({
               onClick={() => subjectUploadInputRef.current?.click()}
               disabled={subjectBulkSubmitting}
             >
-              {subjectBulkSubmitting ? 'Uploading...' : 'Upload Filled Excel'}
+              {subjectBulkSubmitting ? (
+                <>
+                  <div className="spinner" style={{ width: '14px', height: '14px', borderTopColor: '#3b82f6', marginRight: '0.5rem' }}></div>
+                  Uploading...
+                </>
+              ) : (
+                'Upload Filled Excel'
+              )}
             </button>
             <button
               type="button"
@@ -123,7 +130,16 @@ function SubjectManagementPage({
 
           <div className="actions">
             <button type="submit" className="primary" disabled={subjectSubmitting}>
-              {subjectSubmitting ? 'Saving...' : isEditingSubject ? 'Update' : 'Add'}
+              {subjectSubmitting ? (
+                <>
+                  <div className="spinner" style={{ width: '14px', height: '14px', borderTopColor: '#fff', marginRight: '0.5rem' }}></div>
+                  Saving...
+                </>
+              ) : isEditingSubject ? (
+                'Update'
+              ) : (
+                'Add'
+              )}
             </button>
             {isEditingSubject ? (
               <button type="button" onClick={resetSubjectForm} className="secondary">
@@ -136,7 +152,12 @@ function SubjectManagementPage({
 
       <section className="panel">
         <h2>All Subjects</h2>
-        {subjectLoading ? <p>Loading...</p> : null}
+        {subjectLoading ? (
+          <div style={{ textAlign: 'center', padding: '1.5rem' }}>
+            <div className="spinner"></div>
+            <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#64748b' }}>Loading subjects...</p>
+          </div>
+        ) : null}
         <div className="table-wrap">
           <table>
             <thead>

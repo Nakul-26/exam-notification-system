@@ -136,11 +136,19 @@ function ClassStudentManagementPage({
 
           <div className="actions">
             <button type="submit" className="primary" disabled={classStudentSubmitting}>
-              {classStudentSubmitting
-                ? 'Saving...'
-                : isEditingClassStudent
-                  ? 'Update'
-                  : 'Add'}
+              {classStudentSubmitting ? (
+                <>
+                  <div
+                    className="spinner"
+                    style={{ width: '14px', height: '14px', borderTopColor: '#fff' }}
+                  ></div>{' '}
+                  Saving...
+                </>
+              ) : isEditingClassStudent ? (
+                'Update'
+              ) : (
+                'Add'
+              )}
             </button>
             {isEditingClassStudent ? (
               <button type="button" onClick={resetClassStudentForm} className="secondary">
@@ -153,7 +161,7 @@ function ClassStudentManagementPage({
 
       <section className="panel">
         <h2>All Mappings</h2>
-        {classStudentLoading ? <p>Loading...</p> : null}
+        {classStudentLoading ? <div className="spinner"></div> : null}
         <div className="table-wrap">
           <table>
             <thead>

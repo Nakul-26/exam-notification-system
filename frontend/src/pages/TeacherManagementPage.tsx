@@ -136,7 +136,22 @@ function TeacherManagementPage({
               onClick={() => teacherUploadInputRef.current?.click()}
               disabled={teacherBulkSubmitting}
             >
-              {teacherBulkSubmitting ? 'Uploading...' : 'Upload Filled Excel'}
+              {teacherBulkSubmitting ? (
+                <>
+                  <div
+                    className="spinner"
+                    style={{
+                      width: '14px',
+                      height: '14px',
+                      borderTopColor: '#fff',
+                      marginRight: '0.5rem',
+                    }}
+                  ></div>
+                  Uploading...
+                </>
+              ) : (
+                'Upload Filled Excel'
+              )}
             </button>
             <button
               type="button"
@@ -231,7 +246,24 @@ function TeacherManagementPage({
 
           <div className="actions">
             <button type="submit" className="primary" disabled={teacherSubmitting}>
-              {teacherSubmitting ? 'Saving...' : isEditingTeacher ? 'Update' : 'Add'}
+              {teacherSubmitting ? (
+                <>
+                  <div
+                    className="spinner"
+                    style={{
+                      width: '14px',
+                      height: '14px',
+                      borderTopColor: '#fff',
+                      marginRight: '0.5rem',
+                    }}
+                  ></div>
+                  Saving...
+                </>
+              ) : isEditingTeacher ? (
+                'Update'
+              ) : (
+                'Add'
+              )}
             </button>
             {isEditingTeacher ? (
               <button type="button" onClick={resetTeacherForm} className="secondary">
@@ -275,7 +307,22 @@ function TeacherManagementPage({
             </label>
             <div className="actions">
               <button type="submit" className="primary" disabled={resetSubmitting}>
-                {resetSubmitting ? 'Resetting...' : 'Reset Password'}
+                {resetSubmitting ? (
+                  <>
+                    <div
+                      className="spinner"
+                      style={{
+                        width: '14px',
+                        height: '14px',
+                        borderTopColor: '#fff',
+                        marginRight: '0.5rem',
+                      }}
+                    ></div>
+                    Resetting...
+                  </>
+                ) : (
+                  'Reset Password'
+                )}
               </button>
               <button
                 type="button"
@@ -292,7 +339,14 @@ function TeacherManagementPage({
 
       <section className="panel">
         <h2>All Teachers</h2>
-        {teacherLoading ? <p>Loading...</p> : null}
+        {teacherLoading ? (
+          <div style={{ textAlign: 'center', padding: '1.5rem' }}>
+            <div className="spinner"></div>
+            <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#64748b' }}>
+              Loading teachers...
+            </p>
+          </div>
+        ) : null}
         <div className="table-wrap">
           <table>
             <thead>

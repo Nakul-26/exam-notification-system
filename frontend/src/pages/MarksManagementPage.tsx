@@ -819,7 +819,24 @@ function MarksManagementPage({ exams, classStudents, authToken }: MarksManagemen
               </label>
               <div className="actions">
                 <button type="submit" className="primary" disabled={submitting}>
-                  {submitting ? 'Saving...' : editingMarkId ? 'Update Marks' : 'Add Marks'}
+                  {submitting ? (
+                    <>
+                      <div
+                        className="spinner"
+                        style={{
+                          width: '14px',
+                          height: '14px',
+                          borderTopColor: '#fff',
+                          marginRight: '0.5rem',
+                        }}
+                      ></div>
+                      Saving...
+                    </>
+                  ) : editingMarkId ? (
+                    'Update Marks'
+                  ) : (
+                    'Add Marks'
+                  )}
                 </button>
                 {editingMarkId ? (
                   <button type="button" className="secondary" onClick={resetForm}>
@@ -878,7 +895,22 @@ function MarksManagementPage({ exams, classStudents, authToken }: MarksManagemen
                   onClick={() => void handleBulkSave()}
                   disabled={!bulkRows.length || bulkSubmitting}
                 >
-                  {bulkSubmitting ? 'Saving...' : 'Save All Marks'}
+                  {bulkSubmitting ? (
+                    <>
+                      <div
+                        className="spinner"
+                        style={{
+                          width: '14px',
+                          height: '14px',
+                          borderTopColor: '#fff',
+                          marginRight: '0.5rem',
+                        }}
+                      ></div>
+                      Saving...
+                    </>
+                  ) : (
+                    'Save All Marks'
+                  )}
                 </button>
               </div>
               <input
@@ -985,7 +1017,14 @@ function MarksManagementPage({ exams, classStudents, authToken }: MarksManagemen
               Export Marks Excel
             </button>
           </div>
-          {(loading || subjectLoading) && <p>Loading...</p>}
+          {(loading || subjectLoading) && (
+            <div style={{ textAlign: 'center', padding: '1rem', width: '100%' }}>
+              <div className="spinner"></div>
+              <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#64748b' }}>
+                Loading marks...
+              </p>
+            </div>
+          )}
         </div>
         <div className="table-wrap">
           <table>

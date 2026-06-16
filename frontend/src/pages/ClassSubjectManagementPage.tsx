@@ -129,11 +129,19 @@ function ClassSubjectManagementPage({
 
           <div className="actions">
             <button type="submit" className="primary" disabled={classSubjectSubmitting}>
-              {classSubjectSubmitting
-                ? 'Saving...'
-                : isEditingClassSubject
-                  ? 'Update'
-                  : 'Add'}
+              {classSubjectSubmitting ? (
+                <>
+                  <div
+                    className="spinner"
+                    style={{ width: '14px', height: '14px', borderTopColor: '#fff' }}
+                  ></div>{' '}
+                  Saving...
+                </>
+              ) : isEditingClassSubject ? (
+                'Update'
+              ) : (
+                'Add'
+              )}
             </button>
             {isEditingClassSubject ? (
               <button type="button" onClick={resetClassSubjectForm} className="secondary">
@@ -146,7 +154,7 @@ function ClassSubjectManagementPage({
 
       <section className="panel">
         <h2>All Mappings</h2>
-        {classSubjectLoading ? <p>Loading...</p> : null}
+        {classSubjectLoading ? <div className="spinner"></div> : null}
         <div className="table-wrap">
           <table>
             <thead>

@@ -255,6 +255,22 @@ function NotificationsPage({ exams, students, authToken }: NotificationsPageProp
       {error ? <p className="error">{error}</p> : null}
       {successMessage ? <p className="success">{successMessage}</p> : null}
 
+      <div className="panel panel-compact" style={{ background: '#fffbeb', border: '1px solid #fde68a', marginBottom: '1rem' }}>
+        <p style={{ margin: 0, fontSize: '0.85rem', color: '#92400e', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+          </svg>
+          <strong>WhatsApp Test Mode Active:</strong> During this presentation, messages will only be delivered to recipient numbers that are manually registered and verified in your Meta App Dashboard.
+        </p>
+      </div>
+
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '1.5rem' }}>
+          <div className="spinner"></div>
+          <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#64748b' }}>Loading notification data...</p>
+        </div>
+      ) : null}
+
       <section className="panel panel-compact">
         <div className="stats-row">
           <div className="stat-card">
@@ -339,7 +355,14 @@ function NotificationsPage({ exams, students, authToken }: NotificationsPageProp
             onClick={() => void handleSendMarksNotifications()}
             disabled={sending || loading || !selectedExamId || !selectedStudentIds.length}
           >
-            {sending ? 'Sending...' : 'Send Marks on WhatsApp'}
+            {sending ? (
+              <>
+                <div className="spinner" style={{ width: '14px', height: '14px', borderTopColor: '#fff', marginRight: '0.5rem' }}></div>
+                Sending...
+              </>
+            ) : (
+              'Send Marks on WhatsApp'
+            )}
           </button>
         </div>
 

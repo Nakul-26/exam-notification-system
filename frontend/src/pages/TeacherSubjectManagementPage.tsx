@@ -172,11 +172,24 @@ function TeacherSubjectManagementPage({
 
           <div className="actions">
             <button type="submit" className="primary" disabled={teacherSubjectSubmitting}>
-              {teacherSubjectSubmitting
-                ? 'Saving...'
-                : isEditingTeacherSubject
-                  ? 'Update'
-                  : 'Add'}
+              {teacherSubjectSubmitting ? (
+                <>
+                  <div
+                    className="spinner"
+                    style={{
+                      width: '14px',
+                      height: '14px',
+                      borderTopColor: '#fff',
+                      marginRight: '0.5rem',
+                    }}
+                  ></div>
+                  Saving...
+                </>
+              ) : isEditingTeacherSubject ? (
+                'Update'
+              ) : (
+                'Add'
+              )}
             </button>
             {isEditingTeacherSubject ? (
               <button
@@ -193,7 +206,14 @@ function TeacherSubjectManagementPage({
 
       <section className="panel">
         <h2>All Mappings</h2>
-        {teacherSubjectLoading ? <p>Loading...</p> : null}
+        {teacherSubjectLoading ? (
+          <div style={{ textAlign: 'center', padding: '1.5rem' }}>
+            <div className="spinner"></div>
+            <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#64748b' }}>
+              Loading mappings...
+            </p>
+          </div>
+        ) : null}
         <div className="table-wrap">
           <table>
             <thead>
