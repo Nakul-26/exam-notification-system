@@ -130,6 +130,29 @@ app.use((req, res, next) => {
   next()
 })
 
+const connectDb = async () => {
+  if (mongoose.connection.readyState >= 1) return
+  const { mongoUri, mongoOptions } = getMongoConnectionConfig()
+  await mongoose.connect(mongoUri, mongoOptions)
+}
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDb()
+    next()
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.get('/', (_req, res) => {
+  res.json({ 
+    message: 'Exam Marks & WhatsApp Notification API is running!',
+    health: '/api/health',
+    status: 'online'
+  })
+})
+
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' })
 })
@@ -161,6 +184,8 @@ app.use((error, _req, res, _next) => {
   })
 })
 
+export default app
+
 const start = async () => {
   if (!jwtSecret) {
     throw new Error('JWT_SECRET is required')
@@ -172,15 +197,24 @@ const start = async () => {
   const { mongoUri, mongoOptions } = getMongoConnectionConfig()
 
   await mongoose.connect(mongoUri, mongoOptions)
-  app.listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Server running on http://localhost:${port}`)
-    console.log('Connected to MongoDB')
-  })
+  
+  // Only listen if not in a serverless environment
+  if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    app.listen(port, () => {
+      // eslint-disable-next-line no-console
+      console.log(`Server running on http://localhost:${port}`)
+      console.log('Connected to MongoDB')
+    })
+  }
 }
 
-start().catch((error) => {
-  // eslint-disable-next-line no-console
-  console.error('Failed to start server', error)
-  process.exit(1)
-})
+// In ES modules, we check if this is the entry point
+const isMain = import.meta.url === `file://${process.argv[1]}` || process.env.NODE_ENV === 'development'
+
+if (isMain) {
+  start().catch((error) => {
+    // eslint-disable-next-line no-console
+    console.error('Failed to start server', error)
+    process.exit(1)
+  })
+}
