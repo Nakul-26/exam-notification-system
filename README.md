@@ -1,6 +1,7 @@
 # Exam Marks & WhatsApp Notification System
 
-**🚀 [Live Demo](https://exam-management.pages.dev/)**
+**🚀 [Live Demo](https://exam-management.pages.dev/)**  
+*(Login as **Admin:** `admin@school.com` / `Admin@123` or **Teacher:** `teacher@school.com` / `Teacher@123`)*
 
 ### 📝 Demo Credentials
 *You can use these credentials to explore the [Live Demo](https://exam-management.pages.dev/):*
