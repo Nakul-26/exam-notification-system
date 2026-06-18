@@ -140,29 +140,6 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
             </button>
           </div>
         </form>
-
-        <div className="demo-credentials" style={{ 
-          marginTop: '2rem', 
-          padding: '1rem', 
-          backgroundColor: '#f8fafc', 
-          borderRadius: '8px', 
-          border: '1px dashed #cbd5e1',
-          fontSize: '0.875rem'
-        }}>
-          <h4 style={{ margin: '0 0 0.5rem 0', color: '#64748b', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Demo Credentials</h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-            <div>
-              <p style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>Admin</p>
-              <p style={{ margin: 0, color: '#64748b' }}>admin@school.com</p>
-              <p style={{ margin: 0, color: '#64748b' }}>Admin@123</p>
-            </div>
-            <div>
-              <p style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>Teacher</p>
-              <p style={{ margin: 0, color: '#64748b' }}>teacher@school.com</p>
-              <p style={{ margin: 0, color: '#64748b' }}>Teacher@123</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )
