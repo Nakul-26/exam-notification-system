@@ -776,7 +776,10 @@ function App() {
     return Array.from(new Set(names)).sort((a, b) => a.localeCompare(b))
   }, [classSubjects, selectedExam])
 
-  const loadStudents = async () => {
+  const [loadedTopics, setLoadedTopics] = useState<Set<string>>(new Set())
+
+  const loadStudents = async (force = false) => {
+    if (loadedTopics.has('students') && !force) return
     try {
       setStudentLoading(true)
       setError('')
@@ -796,6 +799,7 @@ function App() {
         }),
       )
       setStudents(normalizedStudents)
+      setLoadedTopics((prev) => new Set(prev).add('students'))
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error'
       setError(message)
@@ -804,7 +808,8 @@ function App() {
     }
   }
 
-  const loadExams = async () => {
+  const loadExams = async (force = false) => {
+    if (loadedTopics.has('exams') && !force) return
     try {
       setExamLoading(true)
       setError('')
@@ -828,24 +833,12 @@ function App() {
         return loadedExams[0]._id
       })
 
-      const countEntries = await Promise.all(
-        loadedExams.map(async (exam: Exam) => {
-          try {
-            const countResponse = await fetch(`${examSubjectApiPath}/exam/${exam._id}`, {
-              headers: authHeader,
-            })
-            const countPayload = await countResponse.json()
-            if (!countResponse.ok) {
-              return [exam._id, 0]
-            }
-            const count = Array.isArray(countPayload.data) ? countPayload.data.length : 0
-            return [exam._id, count]
-          } catch (_error) {
-            return [exam._id, 0]
-          }
-        }),
-      )
+      const countEntries = loadedExams.map((exam: Exam & { subjectCount?: number }) => [
+        exam._id,
+        exam.subjectCount || 0,
+      ])
       setExamSubjectCountByExam(Object.fromEntries(countEntries))
+      setLoadedTopics((prev) => new Set(prev).add('exams'))
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error'
       setError(message)
@@ -882,7 +875,8 @@ function App() {
     }
   }
 
-  const loadSubjects = async () => {
+  const loadSubjects = async (force = false) => {
+    if (loadedTopics.has('subjects') && !force) return
     try {
       setSubjectLoading(true)
       setError('')
@@ -895,6 +889,7 @@ function App() {
       }
 
       setSubjects(payload.data || [])
+      setLoadedTopics((prev) => new Set(prev).add('subjects'))
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error'
       setError(message)
@@ -903,7 +898,8 @@ function App() {
     }
   }
 
-  const loadTeachers = async () => {
+  const loadTeachers = async (force = false) => {
+    if (loadedTopics.has('teachers') && !force) return
     try {
       setTeacherLoading(true)
       setError('')
@@ -916,6 +912,7 @@ function App() {
       }
 
       setTeachers(payload.data || [])
+      setLoadedTopics((prev) => new Set(prev).add('teachers'))
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error'
       setError(message)
@@ -924,7 +921,8 @@ function App() {
     }
   }
 
-  const loadTeacherSubjects = async () => {
+  const loadTeacherSubjects = async (force = false) => {
+    if (loadedTopics.has('teacherSubjects') && !force) return
     try {
       setTeacherSubjectLoading(true)
       setError('')
@@ -937,6 +935,7 @@ function App() {
       }
 
       setTeacherSubjects(payload.data || [])
+      setLoadedTopics((prev) => new Set(prev).add('teacherSubjects'))
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error'
       setError(message)
@@ -945,7 +944,8 @@ function App() {
     }
   }
 
-  const loadClassSubjects = async () => {
+  const loadClassSubjects = async (force = false) => {
+    if (loadedTopics.has('classSubjects') && !force) return
     try {
       setClassSubjectLoading(true)
       setError('')
@@ -958,6 +958,7 @@ function App() {
       }
 
       setClassSubjects(payload.data || [])
+      setLoadedTopics((prev) => new Set(prev).add('classSubjects'))
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error'
       setError(message)
@@ -966,7 +967,8 @@ function App() {
     }
   }
 
-  const loadClassStudents = async () => {
+  const loadClassStudents = async (force = false) => {
+    if (loadedTopics.has('classStudents') && !force) return
     try {
       setClassStudentLoading(true)
       setError('')
@@ -979,6 +981,7 @@ function App() {
       }
 
       setClassStudents(payload.data || [])
+      setLoadedTopics((prev) => new Set(prev).add('classStudents'))
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error'
       setError(message)
@@ -987,7 +990,8 @@ function App() {
     }
   }
 
-  const loadClasses = async () => {
+  const loadClasses = async (force = false) => {
+    if (loadedTopics.has('classes') && !force) return
     try {
       setClassLoading(true)
       setError('')
@@ -1000,6 +1004,7 @@ function App() {
       }
 
       setClasses(payload.data || [])
+      setLoadedTopics((prev) => new Set(prev).add('classes'))
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error'
       setError(message)
@@ -1020,6 +1025,7 @@ function App() {
     const clearSession = () => {
       setAuthToken('')
       setAuthUser(null)
+      setLoadedTopics(new Set())
     }
 
     const tryRefreshSession = async () => {
@@ -1066,17 +1072,34 @@ function App() {
     if (!authToken) {
       return
     }
-    void Promise.all([
-      loadStudents(),
-      loadExams(),
-      loadSubjects(),
-      loadTeachers(),
-      loadTeacherSubjects(),
-      loadClassSubjects(),
-      loadClassStudents(),
-      loadClasses(),
-    ])
-  }, [authToken])
+
+    // Sequentially load data based on the active page to reduce initial network saturation
+    const loadRequiredData = async () => {
+      if (activePage === 'students') {
+        await loadStudents()
+      } else if (activePage === 'classes') {
+        await loadClasses()
+      } else if (activePage === 'classStudents') {
+        await Promise.all([loadClasses(), loadStudents(), loadClassStudents()])
+      } else if (activePage === 'subjects') {
+        await loadSubjects()
+      } else if (activePage === 'teachers') {
+        await loadTeachers()
+      } else if (activePage === 'teacherSubjects') {
+        await Promise.all([loadTeachers(), loadClasses(), loadSubjects(), loadTeacherSubjects()])
+      } else if (activePage === 'exams') {
+        await Promise.all([loadExams(), loadClasses(), loadClassSubjects()])
+      } else if (activePage === 'marks') {
+        await Promise.all([loadExams(), loadClassStudents()])
+      } else if (activePage === 'classSubjects') {
+        await Promise.all([loadClasses(), loadSubjects(), loadClassSubjects()])
+      } else if (activePage === 'notifications') {
+        await Promise.all([loadExams(), loadStudents()])
+      }
+    }
+
+    void loadRequiredData()
+  }, [authToken, activePage])
 
   useEffect(() => {
     if (!selectedExamId) {

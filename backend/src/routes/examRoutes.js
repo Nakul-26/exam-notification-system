@@ -204,7 +204,25 @@ router.get('/', async (req, res) => {
       query.$and.push({ $or: teacherScopeOr })
     }
 
-    const exams = await Exam.find(query).sort({ createdAt: -1 }).lean()
+    const exams = await Exam.aggregate([
+      { $match: query },
+      { $sort: { createdAt: -1 } },
+      {
+        $lookup: {
+          from: 'examsubjects',
+          localField: '_id',
+          foreignField: 'examId',
+          as: 'subjects',
+        },
+      },
+      {
+        $addFields: {
+          subjectCount: { $size: '$subjects' },
+        },
+      },
+      { $project: { subjects: 0 } },
+    ])
+
     return res.json({ data: exams.map(normalizeExamOutput) })
   } catch (_error) {
     return res.status(500).json({ message: 'Failed to fetch exams' })
