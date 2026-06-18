@@ -2,6 +2,16 @@
 
 **🚀 [Live Demo](https://exam-management.pages.dev/)**
 
+### 📝 Demo Credentials
+*You can use these credentials to explore the [Live Demo](https://exam-management.pages.dev/):*
+
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin@school.com` | `Admin@123` |
+| **Teacher** | `teacher@school.com` | `Teacher@123` |
+
+---
+
 A comprehensive school management platform designed to streamline academic operations, automate student performance tracking, and facilitate seamless parent communication via the WhatsApp Cloud API.
 
 ---
@@ -99,16 +109,6 @@ A comprehensive school management platform designed to streamline academic opera
    # Start Frontend (Port 5173)
    cd frontend && npm run dev
    ```
-
----
-
-## 📝 Demo Credentials
-*Available after running the seed script:*
-
-| Role | Email | Password |
-| :--- | :--- | :--- |
-| **Admin** | `admin@school.com` | `Admin@123` |
-| **Teacher** | `teacher@school.com` | `Teacher@123` |
 
 ---
 
